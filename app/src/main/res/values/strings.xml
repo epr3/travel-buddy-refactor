@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">travel-buddy</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_name">Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm password</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_switch_to_register">Create one now!</string>
+    <string name="action_switch_to_sign_in">Sign in now!</string>
+    <string name="text_switch_to_sign_in">Already have an account?</string>
+    <string name="text_switch_to_register">Don\'t have an account?</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="title_activity_sign_in">Sign in</string>
+    <string name="title_activity_register">Register</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+</resources>
