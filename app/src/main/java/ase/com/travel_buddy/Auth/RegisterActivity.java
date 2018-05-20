@@ -28,6 +28,7 @@ import java.util.concurrent.Future;
 
 import ase.com.travel_buddy.Main.MainActivity;
 import ase.com.travel_buddy.R;
+import ase.com.travel_buddy.Utils.SharedPreferencesBuilder;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -160,10 +161,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onCompleted(Exception e, JsonObject result) {
                             if (result.get("error") == null) {
-                                String idToken = result.get("idToken").getAsString();
-                                String email = result.get("email").getAsString();
-                                String userId = result.get("localId").getAsString();
-                                String refreshToken = result.get("refreshToken").getAsString();
+                                final String idToken = result.get("idToken").getAsString();
+                                final String email = result.get("email").getAsString();
+                                final String userId = result.get("localId").getAsString();
+                                final String refreshToken = result.get("refreshToken").getAsString();
                                 mRegisterTask = Ion.with(getApplicationContext())
                                         .load(getString(R.string.firebase_db) + "users.json?auth=" + idToken)
                                         .setJsonObjectBody(registerBodyDatabase)
@@ -173,6 +174,10 @@ public class RegisterActivity extends AppCompatActivity {
                                             public void onCompleted(Exception e, JsonObject result) {
                                                 if (result.get("error") == null) {
                                                     showProgress(false);
+                                                    SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "access_token", idToken);
+                                                    SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "email", email);
+                                                    SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "user_id", userId);
+                                                    SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "refresh_token", refreshToken);
                                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                                     startActivity(intent);
                                                     return;

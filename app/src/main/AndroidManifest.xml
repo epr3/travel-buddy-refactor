@@ -3,12 +3,6 @@
     package="ase.com.travel_buddy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -44,7 +38,13 @@
 
         <activity
             android:name=".Main.MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
+
+        <provider
+            android:name=".Utils.AppContentProvider"
+            android:authorities="ase.com.travel_buddy.Utils"
+            android:enabled="true"
+            android:exported="true"></provider>
     </application>
 
 </manifest>

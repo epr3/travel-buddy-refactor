@@ -28,11 +28,9 @@ import java.util.concurrent.Future;
 
 import ase.com.travel_buddy.Main.MainActivity;
 import ase.com.travel_buddy.R;
+import ase.com.travel_buddy.Utils.SharedPreferencesBuilder;
 
 
-/**
- * A login screen that offers login via email/password.
- */
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -48,6 +46,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (SharedPreferencesBuilder.getSharedPreference(getApplicationContext(),"access_token").length() > 0) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = findViewById(R.id.email);
@@ -145,6 +147,10 @@ public class LoginActivity extends AppCompatActivity {
                                 String email = result.get("email").getAsString();
                                 String userId = result.get("localId").getAsString();
                                 String refreshToken = result.get("refreshToken").getAsString();
+                                SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "access_token", idToken);
+                                SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "email", email);
+                                SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "user_id", userId);
+                                SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "refresh_token", refreshToken);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 showProgress(false);
