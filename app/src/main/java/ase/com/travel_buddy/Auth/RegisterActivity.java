@@ -1,15 +1,10 @@
 package ase.com.travel_buddy.Auth;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,16 +25,9 @@ import ase.com.travel_buddy.Main.MainActivity;
 import ase.com.travel_buddy.R;
 import ase.com.travel_buddy.Utils.SharedPreferencesBuilder;
 
-import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class RegisterActivity extends AppCompatActivity {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private Future<JsonObject> mAuthTask = null;
     private Future<JsonObject> mRegisterTask = null;
 
@@ -48,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private EditText mConfirmPasswordView;
-    private View mProgressView;
     private View mLoginFormView;
 
     @Override
@@ -65,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -76,21 +63,15 @@ public class RegisterActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
         mLoginFormView = findViewById(R.id.register_form);
-        mProgressView = findViewById(R.id.register_progress);
     }
 
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
+    private void attemptRegister() {
         if (mAuthTask != null) {
             return;
         }
@@ -139,13 +120,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
             JsonObject registerBodyAuth = new JsonObject();
             final JsonObject registerBodyDatabase = new JsonObject();
             registerBodyAuth.addProperty("email", email);
@@ -173,27 +149,22 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onCompleted(Exception e, JsonObject result) {
                                                 if (result.get("error") == null) {
-                                                    showProgress(false);
                                                     SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "access_token", idToken);
                                                     SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "email", email);
                                                     SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "user_id", userId);
                                                     SharedPreferencesBuilder.setSharedPreference(getApplicationContext(), "refresh_token", refreshToken);
                                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                                     startActivity(intent);
-                                                    return;
+                                                    RegisterActivity.this.finish();
                                                 } else {
-                                                    Toast.makeText(getApplicationContext(), result.get("error").toString(), Toast.LENGTH_LONG).show();
-                                                    showProgress(false);
-                                                    return;
+                                                    Toast.makeText(getApplicationContext(), getString(R.string.error_register_user), Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
-                                return;
                             } else {
-                                Toast.makeText(getApplicationContext(), result.get("error").toString(), Toast.LENGTH_SHORT).show();
-                                showProgress(false);
-                                return;
+                                Toast.makeText(getApplicationContext(), getString(R.string.error_auth_request), Toast.LENGTH_SHORT).show();
                             }
+                            mAuthTask = null;
                         }
                     });
         }
@@ -211,41 +182,5 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean doPasswordsMatch(String password1, String password2) {
         return password1.equals(password2);
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">travel-buddy</string>
+    <string name="app_name">Travel Buddy</string>
 
     <!-- Strings related to login -->
     <string name="prompt_name">Name</string>
@@ -19,9 +19,8 @@
     <string name="error_field_required">This field is required</string>
     <string name="title_activity_sign_in">Sign in</string>
     <string name="title_activity_register">Register</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_auth_request">Invalid credentials were supplied!</string>
+    <string name="error_register_user">An error has occurred while registering the user!</string>
     <string name="firebase_register">
         https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCqQMaFu6NmlCyMS9PxWaLH_UAV_Oepd9I
     </string>
@@ -38,4 +37,52 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+
+    <string-array name="object_array">
+        <item>Bad</item>
+        <item>Bug</item>
+        <item>Conflict</item>
+        <item>Cross</item>
+        <item>Fire</item>
+        <item>Flower</item>
+        <item>Good</item>
+        <item>Heart</item>
+        <item>Idea</item>
+        <item>Job</item>
+        <item>Man</item>
+        <item>Nuclear</item>
+        <item>Peace</item>
+        <item>Rainbow</item>
+        <item>Smiley</item>
+        <item>Star</item>
+        <item>Wish</item>
+    </string-array>
+
+    <integer-array name="object_image">
+        <item>@drawable/bad</item>
+        <item>@drawable/bug</item>
+        <item>@drawable/conflict</item>
+        <item>@drawable/cross</item>
+        <item>@drawable/fire</item>
+        <item>@drawable/flower</item>
+        <item>@drawable/good</item>
+        <item>@drawable/heart</item>
+        <item>@drawable/idea</item>
+        <item>@drawable/job</item>
+        <item>@drawable/man</item>
+        <item>@drawable/nuclear</item>
+        <item>@drawable/peace</item>
+        <item>@drawable/rainbow</item>
+        <item>@drawable/smiley</item>
+        <item>@drawable/star</item>
+        <item>@drawable/wish</item>
+    </integer-array>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
